@@ -531,3 +531,113 @@ db.cars.find({ make : "Volkswagen" });
 db.cars.deleteMany({ make : "Volkswagen" });
 
 // Lesson 5 for NoSQL //
+
+// Create new collection of "employees"
+
+db.employees.insertMany([
+{
+Name : "Allison Davidson",
+Birthday : "1975-05-04", 
+Address : "874 W. Oak Place", 
+City : "Gary", 
+State : "Indiana", 
+Position : { "Postion Name" : " Customer Support", "Remote" : true , "Full time" : true}
+}, 
+{
+Name : "Henry Chapelton",
+Birthday : "1980-29-09", 
+Address : "9324 E. Vista Way", 
+City : "Tempe", 
+State : "Arizona", 
+Position : { "Postion Name" : "Customer Support", "Remote" : false , "Full time" : true}
+},
+{
+Name : "Alex Miller",
+Birthday : "1983-22-11", 
+Address : "244 Price Road", 
+City : "Mesa", 
+State : "Arizona", 
+Position : { "Postion Name" : "Customer Support", "Remote" : false , "Full time" : false }
+}, 
+{
+Name : "Carly Nielson",
+Birthday : "1987-04-08", 
+Address : "678 W. Westward Road", 
+City : "Phoenix", 
+State : "Arizona", 
+Position : { "Postion Name" : "Office Manager", "Remote" : false , "Full time" : true }
+}, 
+{
+Name : "Tom Talbot",
+Birthday : "1989-30-12", 
+Address : "12 Oakland Way", 
+City : "Chandler", 
+State : "Arizona", 
+Position : { "Postion Name" : "Inventory Manager", "Remote" : false , "Full time" : true}
+}, 
+{
+Name : "Mary Crawley",
+Birthday : "1980-06-07", 
+Address : "1010 Granite Way", 
+City : "Charlotte", 
+State : "North Carolina", 
+Position : { "Postion Name" : "Human Resources", "Remote" : true , "Full time" : true}
+}, 
+{
+Name : "Daisy Baxter",
+Birthday : "1987-09-09", 
+Address : "990 E. 84th St. ", 
+City : "Tempe", 
+State : "Arizona", 
+Position : { "Postion Name" : "CEO", "Remote" : false , "Full time" : true}
+}, 
+{
+Name : "William Coyle",
+Birthday : "1991-11-10", 
+Address : "944 W. 16th St.", 
+City : "Phoenix", 
+State : "Arizona", 
+Position : { "Postion Name" : "Intern", "Remote" : false , "Full time" : false}
+}, 
+{
+Name : "Edith Bates",
+Birthday : "1990-28-07", 
+Address : "7 E. 20th Pl.", 
+City : "Chandler", 
+State : "Arizona", 
+Position : { "Postion Name" : "Customer Support", "Remote" : false , "Full time" : true}
+}, 
+{
+Name : "Gwen Harding",
+Birthday : "1986-11-10", 
+Address : "234 W. 48th St.", 
+City : "Phoenix", 
+State : "Arizona", 
+Position : { "Postion Name" : "Office Assistant", "Remote" : false , "Full time" : true}
+} 
+]);
+
+db.employees.find({});
+
+//  2.	Update addresses:
+// Alison Davidson new address: 777 E. 1st St. #120 Tempe, AZ
+db.employees.updateOne({ Name : {$eq : "Alison Davidson"}}, {$set : {Address : "777 E. 1st St. #120 Tempe"}} );
+db.employees.find({Name :{ $eq :  "Alison Davidson"}});
+
+// Mary Crawley new address: 8322 W. Vista Pl. Scottsdale, AZ
+db.employees.updateOne({ Name : {$eq : "Mary Crawley"}}, {$set : {Address : "8322 W. Vista Pl."}} );
+
+
+// 3.	Delete “state” field. 
+
+db.employees.updateMany({}, {$unset : { "State" : "" }});
+db.employees.find({});
+
+
+// 4.	Create index using “position” field. 
+db.employees.createIndex({ Position : 1});
+db.employees.getIndexes({Position : 1});
+
+// Part 2 
+
+// insert the data into a collection named songs
