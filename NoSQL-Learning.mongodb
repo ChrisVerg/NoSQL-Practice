@@ -1,0 +1,506 @@
+db.createCollection("appusers");
+
+db.appusers.insertOne({_id:1,lastName:"Pumpernickel", firstName:"Georgina", middleName:"Sasquatch", age:27, gender:"f"})
+
+db.appusers.insertOne({_id:2,lastName:"Wilson", firstName:"Coderboy", age:18, favoriteColor:"blue"})
+
+db.appusers.find({})
+
+db.appusers.insertMany([{lastName: "Anstruther", firstName: "Jimmy", age: 21}, {lastName: "Stevens", firstName: "Amelia", age: 28},{lastName: "Hopkins", firstName: "Fred", age: 35, favoriteColor: "Green"}])
+
+
+db.appusers.find({})
+
+db.movies.insertMany([{title: "The Shawshank Redemption", director: "Frank Darabont", yearReleased: 1994}, {title: "The Dark Knight", director: "Christopher Nolan", yearReleased: 2008}, {title: "It's a Wonderful Life", director: "Frank Capra", yearReleased: 1946}])
+
+
+// Part 1 for Lesson 1 HandsON//
+db.appusers.insertOne([{ firstName:"John", lastName: "Cleary", age: 55}]);
+db.appusers.insertOne([{ firstName:"Christian", lastName: "Verges", age: 31}])
+db.appusers.insertOne([{ firstName:"Paul", lastName: "Hughes", age: 60}])
+
+db.appusers.find({})
+
+// Part 2 for Lesson 1 HandsON//
+
+db.cars.insertMany([{make: "Ford" , model: "F-150", color: "Black", year:2022 , "fourDoor": true, "fourWheelDrive": true}, {make: "Dodge" , model: "Charger", color: "Yellow", year: 2021 , "fourDoor": true, "fourWheelDrive": false}, {make: "Jeep" , model: "Wrangler", color: "Gray", year: 2016 , "fourDoor": true, "fourWheelDrive": true}, {make: "Chevorlet" , model: "Corvette", color: "Black", year: 2022, "fourDoor": false, "fourWheelDrive": false}, {make: "Ford" , model: "Mustang", color: "Red", year: 1965, "fourDoor": false, "fourWheelDrive": false}])
+db.cars.find()
+
+// Practice the follow along queries//
+// Return Documents in appusers
+db.appusers.find({})
+
+//Query Operators//
+
+// Return _id that is = to 1 in appusers//
+db.appusers.find({ _id : {$eq : 1 } })
+
+// Return _id greater than 1 //
+db.appusers.find({ _id : {$gte : 1 } })
+
+// Return _id greater or equal to 2 //
+db.appusers.find({ _id : {$gte : 2 } })
+
+// Return _id less than 2, less then/equal to 2 //
+db.appusers.find({ _id : {$lt : 2 } })
+db.appusers.find({ _id : {$lte : 2 } })
+
+//Create "Inventory Collection" while inserting values //
+db.inventory.insertMany([
+{ item: "journal", qty: 25, size: { h: 14, w: 21, uom: "cm" }, status: "A", price: 16.49, sale: true },
+{ item: "spiral notebook", qty: 50, size: { h: 8.5, w: 11, uom: "in" }, status: "A", price: 4.79, sale: false },
+{ item: "paper", qty: 100, size: { h: 8.5, w: 11, uom: "in" }, status: "D", price: 6.99, sale: true },
+{ item: "day planner", qty: 75, size: { h: 22.85, w: 30, uom: "cm" }, status: "D", price: 25.29, sale: true },
+{ item: "calendar", size: { h: 21.75, w: 17, uom: "in" }, status: "B", price: 5.99, sale: false },
+{ item: "scissor", qty: 15, size: { h: 8, w: 4.25, uom: "in" }, status: "B", price: 11.59, sale: true },
+{ item: "tape dispenser", qty: 5, size: { h: 3, w: 7, uom: "in" }, status: "A", price: 3.09, sale: true }
+]);
+
+// Find docs in Invetory with qty equal to 5 and 15//
+db.inventory.find({ qty: {$in : [5,15] } })
+
+// Find docs in Invetory with qty does not equal to 5 and 15//
+db.inventory.find({ qty: {$nin : [5,15] } })
+
+// Logical Operators//
+
+// Using $and, find the where price exists and is not equal to 6.99//
+db.inventory.find( { $and: [ { price: { $ne: 6.99 } }, { price: { $exists: true } } ] } )
+
+// Using or find qty is less than 20 or price of 16.49//
+db.inventory.find({ $or: [ {qty : { $lt : 20 }}, {price : 16.49} ] })
+
+//  Using the and with or. This query will return ( price = 4.79 OR price = 3.09) //
+// And return ( sale = true OR qt is less than 20) // 
+
+db.inventory.find( {
+$and : [
+{ $or : [ { price : { $eq : 4.79 } }, { price : { $eq : 3.09 } } ] },
+{ $or : [ { sale : true }, { qty : { $lt : 20 } } ] }
+]
+} )
+
+// use $not to find documents that the price is NOT greater than 4.80//
+db.inventory.find({ price: {$not: {$gt: 4.80 } } })
+
+// Use $nor to query multiple operations that fail the array//
+// using price greater than or equal to 5.99, sale is equal to true//
+db.inventory.find( { $nor: [ { price: { $gte: 5.99 } }, { sale: { $eq: true } } ] } ) 
+
+// Element Operators//
+
+// Return documents where the qty field exists and is not 5 or 15
+db.inventory.find({ qty: {$exists : true , $nin: [5,15]}  })
+
+
+// Array Operators//
+// Lesson 2 page 6//
+
+// For projections 0 or 1 is used to determine yes/no for showing fields. They cannont be mixed with 0 and 1 requests
+// The below query would return an error. 
+db.appusers.find({}, {firstName : 1, lastName : 0})
+
+
+// Projections show just the desired fields of a document. This would return only first/last name of all docs in appusers
+db.appusers.find({}, {firstName : 1, lastName : 1})
+
+// This query shows the first name for Only _id 1
+db.appusers.find( { _id : 1}, { firstName: 1 })
+
+// This would show all fields except _id
+db.appusers.find({}, { _id : 0})
+
+// Lesson 2 Hands On 
+
+db.movies.insertMany([
+        {_id: 1, title: "Wonder Woman", director: "Patty Jenkins", yearReleased: 2017, leadActors: ["Gal Gadot", "Chris Pine", "Robin Wright"], lengthInMin: 141, genre: ["Action", "Adventure", "Fantasy"], MPAA: "PG-13" },
+        {_id: 2, title: "Cloud Atlas", director: "Tom Tykwer", yearReleased: 2012, leadActors: ["Tom Hanks", "Halle Berry", "Hugh Grant", "Jim Broadbent", "Jim Sturgess", "Hugo Weaving"], lengthInMin: 172, genre: ["Action", "Drama", "Mystery"], MPAA: "R" },
+        {_id: 3, title: "Pan's Labyrinth", director: "Guillermo del Torro", yearReleased: 2006, leadActors: ["Ivana Baquero", "Ariadna Gil", "Sergi Lopez"], lengthInMin: 118, genre: ["Drama", "Fantasy", "War", "Foreign"], MPAA: "R" },
+        {_id: 4, title: "Gone With the Wind", director: "Victor Fleming", yearReleased: 1939, leadActors: ["Clark Gable", "Vivien Leigh", "Thomas Mitchell", "Olivia de Havilland", "Leslie Howard"], lengthInMin: 238, genre: ["Drama", "History", "Romance"], MPAA: "G" },
+        {_id: 5, title: "Spaceballs", director: "Mel Brooks", yearReleased: 1987, leadActors: ["Mel Brooks", "John Candy", "Rick Moranis", "Bill Pullman", "Daphne Zuniga"], lengthInMin: 96, genre: ["Adventure", "Comedy", "Sci-fi"], MPAA: "PG" },
+        {_id: 6, title: "Silence of the Lambs", director: "Jonathan Demme", yearReleased: 1991, leadActors: ["Jodie Foster", "Anthony Hopkins", "Anthony Heald"], lengthInMin: 118, genre: ["Crime", "Drama", "Thriller"], MPAA: "R" },
+        {_id: 7, title: "American History X", director: "Tony Kaye", yearReleased: 1998, leadActors: ["Edward Norton", "Edward Furlong", "Beverly D'Angelo", "Ethan Suplee"], lengthInMin: 119, genre: ["Crime", "Drama"], MPAA: "R" },
+        {_id: 8, title: "Psycho", director: "Alfred Hitchcock", yearReleased: 1960, leadActors: ["Anthony Perkins", "Vera Miles", "John Gavin", "Janet Leigh"], lengthInMin: 109, genre: ["Horror", "Mystery", "Thriller"], MPAA: "R" },
+        {_id: 9, title: "The Pianist", director: "Roman Polanski", yearReleased: 2002, leadActors: ["Adrien Brody", "Emilia Fox", "Michal Zebrowski", "Ed Stoppard"], lengthInMin: 150, genre: ["Biography", "Drama", "Music"], MPAA: "R" },
+        {_id: 10, title: "Gladiator", director: "Ridley Scott", yearReleased: 2000, leadActors: ["Russell Crowe", "Joaquin Phoenix", "Connie Nielsen", "Oliver Reed"], lengthInMin: 155, genre: ["Action", "Adventure", "Drama"], MPAA: "R" },
+])
+
+// Part 1 //
+// Find all movies that are longer than 2 hours //
+db.movies.find({ lengthInMin : {$gt : 120} })
+
+//  Find all movies that do not have Tom Hanks as a lead actor //
+db.movies.find({ leadActors : {$ne : "Tom Hanks"} })
+
+// Find all movies that were directed by Mel Brooks //
+
+// Find all movies that are not considered Drama //
+db.movies.find({ genre : {$ne : "Drama"} })
+
+// Find all movies that are longer than 90 minutes but less than 2 hours //
+db.movies.find({ $and: [ {lengthInMin: {$gt : 90}}, {lengthInMin: {$lt: 120}} ] })
+
+
+// Find all movies that are considered Action or Adventure and return only the title of the movie //
+db.movies.find( { $or: [ {genre: {$eq : "Action"} }, {genre: {$eq: "Adventure"}} ] }, {title : 1} )
+
+// Part 2 //
+
+// Query a move that 
+// 1. Is NOT foreign and IS a comedy or Drama
+// 2.  Does NOT feature Jodie Foster and IS a comedy or horror film
+// 3. Is less than 2 hours and is a thriller or comedy. 
+
+// Lesson 3//
+// Lesson 3//
+
+// So it must be a comedy, less than 2 hours, not foreign and not feature Jodie Foster. 
+db.movies.find( { $and: [ {genre: {$eq: "Comedy"} }, { leadActors: { $ne: "Jodie Foster"} }, {lengthInMin: {$lt: 120} } ]}, {title: 1 })
+
+// Update one document, sample syntax//
+db.appusers.updateOne({filter}, {update}, {options})
+
+db.appusers.find()
+
+// Update user_id 1 middle name as Gertrude//
+// upsert will update the value or insert the value if it is not already present//
+db.appusers.updateOne({_id: 1}, { $set : {middleName : "Gertrude"}}, {upsert : true})
+db.appusers.find( {_id : 1})
+
+// UpdateOne only updates the first document that matches the filter//
+// updatMany will update all documents that match the filter //
+db.appusers.updateMany({ firstName : "Tommy"}, {$set : {middleName : "Hector"}}, {upsert : true})
+db.appusers.find({firstName : "Tommy"})
+
+// The generic update() command can run one or many, after upsert input the boolean multi//
+db.[collection].update( {filter}, {update}, {upsert : true/false, multi: true/false})
+// multi determines whether or not to update one or many
+
+// find Coderboy in appusers and insert the middle name "Cole"//
+db.appusers.updateMany({firstName: "Coderboy"}, { $set : {middleName : "Cole"}}, {upsert : true})
+db.appusers.find({ firstName : "Coderboy"})
+
+// This does the same as the above code using multi after upsert //
+db.appusers.update({firstName: "Coderboy"}, { $set : {middleName : "Coleman"}}, {upsert : true, multi : true})
+db.appusers.find({ firstName : "Coderboy"})
+
+
+// add a "signed up " field to one of your users with time stamp
+db.appusers.updateOne({ _id : 1}, {$currentDate : { signedUp : true} });
+db.appusers.find({ _id : 1})
+
+// use $mul to multiply the quantity of each inventory doc by 2, where the status is "A"
+db.inventory.find({status : "A"})
+db.inventory.updateMany({status : "A"}, {$mul : {qty : 2 }});
+db.inventory.find({status : "A"})
+
+// use the $set operator to update the product journal status to "B"//
+db.inventory.update({ item : "journal" }, {$set: { status : "B"}})
+db.inventory.find({item : "journal"})
+
+// use $unset  and status : "" to delete the status field for journal
+db.inventory.update({ item : "journal" }, { $unset: { status : " " }});
+
+// use $rename to change qty to quantity in inventory collection
+db.inventory.updateMany( {}, { $rename: { qty : "quantity"} });
+
+// use .replaceOne() to replace an entire document. JIn appusers Replace _id:2 with 
+// Rupert Beck, age 19, favorite color green. 
+db.inventory.replaceOne(
+        {_id: 2},
+        { firstName : "Rupert", lastName: "Beck", age: 19, favoriteColor: "green"}
+);
+db.appusers.find({_id : 2});
+
+// add db.scores to practice find and replace 
+
+db.scores.insertMany( [ { "_id" : 1521, "team" : "Fearful Mallards", "score" : 25000 },
+{ "_id" : 2231, "team" : "Tactful Mooses", "score" : 23500 },
+{ "_id" : 4511, "team" : "Aquatic Ponies", "score" : 19250 },
+{ "_id" : 5331, "team" : "Cuddly Zebras", "score" : 15235 },
+{ "_id" : 3412, "team" : "Garrulous Bears", "score" : 22300 } ] )
+
+db.scores.find({});
+
+// use findOneandReplace to 
+db.scores.findOneAndReplace(
+  { score: { $lt: 20000 } },
+  { team: 'Observant Badgers', score: 20000 }
+);
+// The above query found aquatic ponies because of their score less than 20,000 and replaced
+// it with team observant badgers with a score of 20,000
+
+// Find and update works the same, see mongodb.com for more
+
+
+// Lesson 3 Hands On using inventory collection
+// Part 1
+
+//1.	Update the item of journal to have a height of 16.
+db.inventory.update({ item : "journal" }, { $inc : {"size.h" : 2} });
+db.inventory.find({item : "journal"});
+
+// 2.	Update all items with a status of D to have a quantity of 50.
+db.inventory.update({status : "D"}, {$set : {quantity : 50}}, { multi: true});
+db.inventory.find({status : "D"});
+
+// 3.	Update the item paper to include a field "rating" that has the value of 4 stars and change its status to A.
+db.inventory.updateOne({ item : "paper"}, {$set : { status : "A" , rating : "4 stars"} }, {upsert : true} );
+db.inventory.find({item : "paper"});
+
+//4.	Update all items to change the h and w fields to be height and width.
+db.inventory.updateMany({}, {$rename: { "size.h" : "height", "size.w" : "width"} });
+db.inventory.find({});
+
+// 5.	Update the item spiral notebook so that the height and width is incremented by 2.
+db.inventory.update({ item : "spiral notebook"}, { $inc: { height : 2, width : 2} });
+db.inventory.find({ item : "spiral notebook"});
+
+
+
+
+//6.	Update the items paper and day planner to multiply the height by 3.
+db.inventory.update({item : "day planner"} , {$mul: {height : 3} }, { upsert : false, multi: false} );
+db.inventory.update({item : "paper"} , {$mul: {height : 3} }, { upsert : false, multi: false} );
+
+db.inventory.find({ item : "day planner"});
+db.inventory.find({ item : "paper"});
+
+
+// Part 2 
+db.inventory.insertMany([
+  {
+    item: 'sticky note pads',
+    size: { height: 8.9, width: 9, uom: 'cm' },
+    status: 'B',
+    quantity: 5
+  },
+  {
+    item: 'pens',
+    size: { height: 12, width: 1.3, uom: 'cm' },
+    status: 'A',
+    quantity: 4
+  },
+  {
+    item: 'pencils',
+    size: { height: 13, width: 1.4, uom: 'cm' },
+    status: 'D',
+    quantity: 10
+  },
+  {
+    item: 'clipboard',
+    size: { height: 13, width: 7, uom: 'in' },
+    status: 'B',
+    quantity: 2
+  },
+  {
+    item: 'printer ink',
+    size: { height: 2, width: 3, uom: 'in' },
+    status: 'C',
+    quantity: 2
+  }
+]);
+
+// Update inventory so that all products sized in cm have a status of "B"
+
+db.inventory.updateMany({ "size.uom": "cm" }, {$set: { "status" : "B"}});
+db.inventory.find({})
+
+db.inventory.updateMany({}, {$mul: { quantity : 2}}, {upsert : true});
+db.inventory.find({})
+
+
+// This embeds the two fields in ratings!!!//
+db.inventory.updateMany( {},{ $set: { rating: {numberOfStarts : 4, hasBeenRated : true} }}, {upsert : true});
+db.inventory.find({});
+
+//Lesson 4 //
+//Lesson 4 //
+
+// Add the follwing collection, then delete all the documents from the collection
+
+db.cars.insertMany([
+  {
+    make: 'Hyundai',
+    model: 'Santa Fe',
+    price: 8000,
+    year: 2003,
+    used: true,
+    color: 'Black'
+  },
+  {
+    make: 'BMW',
+    model: 'ALPINA B6 Gran Coupe',
+    price: 124300,
+    year: 2017,
+    used: false,
+    color: 'Mediterranean Blue Metallic'
+  },
+  {
+    make: 'Subaru',
+    model: 'Crosstrek 2.0i Premium',
+    price: 22595,
+    year: 2014,
+    used: true,
+    color: 'Sunshine Orange'
+  },
+  {
+    make: 'Ford',
+    model: 'F-350 XL',
+    price: 33705,
+    year: 2017,
+    used: false,
+    color: 'Race Red'
+  },
+  {
+    make: 'Toyota',
+    model: 'Acura MDX',
+    price: 28800,
+    year: 2014,
+    used: true,
+    color: 'Graphite Luster Metallic'
+  },
+  {
+    make: 'Volkswagen',
+    model: 'Jetta 1.4T S',
+    price: 19495,
+    year: 2018,
+    used: false,
+    color: 'Silk Blue Metallic'
+  }
+]);
+
+// This deletes all the docs but not the collection itself
+db.cars.deleteMany({});
+
+// reinsert the car docs //
+// delete cars worth less than $30k
+db.cars.deleteMany({ price : { $lt : 30000} });
+
+// Delete the first document that is "used"
+db.cars.deleteOne({ used : true });
+
+// Use find one and delete to delete a car with the price less than $10k
+db.cars.findOneAndDelete({ price : { $lt : 10000 } });
+
+// To delete an entire collection use the following code //
+db.collectionName.drop();
+db.cars.drop();
+
+// Indexing //
+// To create an index with a field in ascending : 1 or descending -1 use the below code //
+// db.records.createIndex( { score: 1 } ) OR db.records.createIndex( { score: -1 } ) // 
+db.cars.createIndex({ make: 1, model: -1 });
+db.cars.getIndexes();
+db.cars.dropIndexes();
+
+
+
+
+// Lesson 4 Hands On //
+
+// Part 1
+
+// 1. Start off by deleting the entire collection cars //
+db.cars.drop();
+
+// 2. Next, run the following query to recreate the cars collection //
+db.cars.insertMany([
+  {
+    make: "Hyundai",
+    model: "Santa Fe",
+    price: 8000,
+    year: 2003,
+    used: true,
+    color: "Black"
+  },
+  {
+    make: "BMW",
+    model: "ALPINA B6 Gran Coupe",
+    price: 124300,
+    year: 2017,
+    used: false,
+    color: "Mediterranean Blue Metallic"
+  },
+  {
+    make: "Subaru",
+    model: "Crosstrek 2.0i Premium",
+    price: 22595,
+    year: 2014,
+    used: true,
+    color: "Sunshine Orange"
+  },
+  {
+    make: "Ford",
+    model: "F-350 XL",
+    price: 33705,
+    year: 2017,
+    used: false,
+    color: "Race Red"
+  },
+  {
+    make: "Toyota",
+    model: "Acura MDX",
+    price: 28800,
+    year: 2014,
+    used: true,
+    color: "Graphite Luster Metallic"
+  },
+  {
+    make: "BMW",
+    model: "5 Series 535i Sedan",
+    price: 18995,
+    year: 2013,
+    used: true,
+    color: "Space Gray Metallic"
+  },
+  {
+    make: "Ford",
+    model: "Escape",
+    price: 7480,
+    year: 2011,
+    used: true,
+    color: "Sterling Grey Metallic"
+  },
+  {
+    make: "Subaru",
+    model: "Impreza",
+    price: 18495,
+    year: 2018,
+    used: false,
+    color: "Crimson Red Pearl"
+  },
+  {
+    make: "Toyota",
+    model: "Yaris",
+    price: 15635,
+    year: 2018,
+    used: false,
+    color: "Super White"
+  },
+  {
+    make: "Honda",
+    model: "Civic LX",
+    price: 14999,
+    year: 2016,
+    used: true,
+    color: "Crystal Black Pearl"
+  },
+  {
+    make: "Volkswagen",
+    model: "Jetta 1.4T S",
+    price: 19495,
+    year: 2018,
+    used: false,
+    color: "Silk Blue Metallic"
+  }
+]);
+
+
+// 3. Create an index on the price field. // 
+db.cars.createIndex({ price : 1 });
+db.cars.getIndexes();
+
+// 4. Create an index on the non-used field for the cars collection. //
+db.cars.createIndex({ used : false });
+
