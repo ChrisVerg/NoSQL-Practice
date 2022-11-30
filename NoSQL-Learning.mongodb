@@ -640,7 +640,7 @@ db.employees.getIndexes({Position : 1});
 
 // Part 2 
 
-// insert the data into a collection named songs
+// 1. insert the data into a collection named songs
 
 db.songs.insertMany([
 {
@@ -740,3 +740,16 @@ Details : { "Artist" : " Janet Jackson ", "Album" : " Janet Jackson's Rhythm Nat
 }
 ]);
 
+
+// 2.	Next, your company has run into some things they would like to be changed within the database:
+
+// 	The title field needs to be renamed to songTitle, so it is clearer to the developers working with the data
+
+db.songs.updateMany({}, { $rename : { "Title" : "songTitle" } });
+db.songs.find({});
+
+// •	They would like to have the artist field to be outside the details document but the album 
+// and releaseYear should stay within that document.
+
+db.songs.updateMany({}, {$rename : { "Details.Artist" : " artist " }});
+db.songs.find({});
