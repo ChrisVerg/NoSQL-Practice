@@ -11,7 +11,7 @@ db.appusers.insertMany([{lastName: "Anstruther", firstName: "Jimmy", age: 21}, {
 
 db.appusers.find({})
 
-db.movies.insertMany([{title: "The Shawshank Redemption", director: "Frank Darabont", yearReleased: 1994}, {title: "The Dark Knight", director: "Christopher Nolan", yearReleased: 2008}, {title: "It's a Wonderful Life", director: "Frank Capra", yearReleased: 1946}])
+db.movies.insertMany([{title: "The Shawshank Redemption", director: "Frank Darabont", yearReleased: 1994}, {title: "The Dark Knight", director: "Christopher Nolan", yearReleased: 2008}, {title: "It a Wonderful Life", director: "Frank Capra", yearReleased: 1946}])
 
 
 // Part 1 for Lesson 1 HandsON//
@@ -115,7 +115,7 @@ db.appusers.find({}, { _id : 0})
 db.movies.insertMany([
         {_id: 1, title: "Wonder Woman", director: "Patty Jenkins", yearReleased: 2017, leadActors: ["Gal Gadot", "Chris Pine", "Robin Wright"], lengthInMin: 141, genre: ["Action", "Adventure", "Fantasy"], MPAA: "PG-13" },
         {_id: 2, title: "Cloud Atlas", director: "Tom Tykwer", yearReleased: 2012, leadActors: ["Tom Hanks", "Halle Berry", "Hugh Grant", "Jim Broadbent", "Jim Sturgess", "Hugo Weaving"], lengthInMin: 172, genre: ["Action", "Drama", "Mystery"], MPAA: "R" },
-        {_id: 3, title: "Pan's Labyrinth", director: "Guillermo del Torro", yearReleased: 2006, leadActors: ["Ivana Baquero", "Ariadna Gil", "Sergi Lopez"], lengthInMin: 118, genre: ["Drama", "Fantasy", "War", "Foreign"], MPAA: "R" },
+        {_id: 3, title: "Pan Labyrinth", director: "Guillermo del Torro", yearReleased: 2006, leadActors: ["Ivana Baquero", "Ariadna Gil", "Sergi Lopez"], lengthInMin: 118, genre: ["Drama", "Fantasy", "War", "Foreign"], MPAA: "R" },
         {_id: 4, title: "Gone With the Wind", director: "Victor Fleming", yearReleased: 1939, leadActors: ["Clark Gable", "Vivien Leigh", "Thomas Mitchell", "Olivia de Havilland", "Leslie Howard"], lengthInMin: 238, genre: ["Drama", "History", "Romance"], MPAA: "G" },
         {_id: 5, title: "Spaceballs", director: "Mel Brooks", yearReleased: 1987, leadActors: ["Mel Brooks", "John Candy", "Rick Moranis", "Bill Pullman", "Daphne Zuniga"], lengthInMin: 96, genre: ["Adventure", "Comedy", "Sci-fi"], MPAA: "PG" },
         {_id: 6, title: "Silence of the Lambs", director: "Jonathan Demme", yearReleased: 1991, leadActors: ["Jodie Foster", "Anthony Hopkins", "Anthony Heald"], lengthInMin: 118, genre: ["Crime", "Drama", "Thriller"], MPAA: "R" },
@@ -270,7 +270,7 @@ db.inventory.find({ item : "paper"});
 // Part 2 
 db.inventory.insertMany([
   {
-    item: 'sticky note pads',
+    item: ticky note pads',
     size: { height: 8.9, width: 9, uom: 'cm' },
     status: 'B',
     quantity: 5
@@ -322,7 +322,7 @@ db.inventory.find({});
 db.cars.insertMany([
   {
     make: 'Hyundai',
-    model: 'Santa Fe',
+    model: anta Fe',
     price: 8000,
     year: 2003,
     used: true,
@@ -337,12 +337,12 @@ db.cars.insertMany([
     color: 'Mediterranean Blue Metallic'
   },
   {
-    make: 'Subaru',
+    make: ubaru',
     model: 'Crosstrek 2.0i Premium',
     price: 22595,
     year: 2014,
     used: true,
-    color: 'Sunshine Orange'
+    color: unshine Orange'
   },
   {
     make: 'Ford',
@@ -366,7 +366,7 @@ db.cars.insertMany([
     price: 19495,
     year: 2018,
     used: false,
-    color: 'Silk Blue Metallic'
+    color: ilk Blue Metallic'
   }
 ]);
 
@@ -641,3 +641,102 @@ db.employees.getIndexes({Position : 1});
 // Part 2 
 
 // insert the data into a collection named songs
+
+db.songs.insertMany([
+{
+SongId : 1 ,
+Title : "Girls Just Want To Have Fun",  
+Details : { "Artist" : " Cyndi Lauper ", "Album" : " She's So Unusual " , "ReleaseYear" : 1983}
+}, 
+{
+SongId : 2 ,
+Title : "Hips Don't Lie",  
+Details : { "Artist" : " Shakira feat. Wyclef Jean ", "Album" : " Oral Fixation Vol. 2 " , "ReleaseYear" : 2006}
+}, 
+{
+SongId : 3 ,
+Title : "	Poker Face",  
+Details : { "Artist" : " Lady Gaga ", "Album" : " The Fame " , "ReleaseYear" : 2008}
+}, 
+{
+SongId : 4 ,
+Title : "Wannabe",  
+Details : { "Artist" : " 	Spice Girls ", "Album" : " Spice " , "ReleaseYear" : 1996}
+}, 
+{
+SongId : 5 ,
+Title : "California Gurls",  
+Details : { "Artist" : " Katy Perry feat. Snoop Dogg ", "Album" : " Teenage Dream " , "ReleaseYear" : 2010}
+}, 
+{
+SongId : 6 ,
+Title : "Bye, Bye, Bye",  
+Details : { "Artist" : " NSYNC	 ", "Album" : " No Strings Attached	 " , "ReleaseYear" : 2000}
+}, 
+{
+SongId : 7 ,
+Title : "	I Will Always Love You",  
+Details : { "Artist" : " Whitney Houston ", "Album" : " I Will Always Love You: The Best of Whitney Houston	 " , "ReleaseYear" : 2012}
+}, 
+{
+SongId : 8 ,
+Title : "Baby One More Time",  
+Details : { "Artist" : " Britney Spears	 ", "Album" : " Baby One More Time " , "ReleaseYear" : 1999}
+}, 
+{
+SongId : 9 ,
+Title : "	Vogue",  
+Details : { "Artist" : " Madonna ", "Album" : " I'm Breathless " , "ReleaseYear" : 1990}
+}, 
+{
+SongId : 10 ,
+Title : "	Rolling in the Deep",  
+Details : { "Artist" : " Adele ", "Album" : " 21 " , "ReleaseYear" : 2011}
+}, 
+{
+SongId : 11 ,
+Title : "1234",  
+Details : { "Artist" : " Feist ", "Album" : " The Reminder " , "ReleaseYear" : 2007}
+}, 
+{
+SongId : 12 ,
+Title : "Elastic Heart",  
+Details : { "Artist" : " Sia ", "Album" : " The Hunger Games: Catching Fire Soundtrack	 " , "ReleaseYear" : 2015}
+}, 
+{
+SongId : 13 ,
+Title : "Oops! I Did It Again",  
+Details : { "Artist" : " Britney Spears ", "Album" : " Oops! I Did It Again	 " , "ReleaseYear" : 2000}
+}, 
+{
+SongId : 14 ,
+Title : "	Bad Romance",  
+Details : { "Artist" : " Lady Gaga	 ", "Album" : " The Fame Monster " , "ReleaseYear" : 2009}
+}, 
+{
+SongId : 15 ,
+Title : "Lose Control",  
+Details : { "Artist" : " Missy Elliot	 ", "Album" : " The Cookbook	 " , "ReleaseYear" : 2005}
+}, 
+{
+SongId : 16 ,
+Title : "U Can't Touch This",  
+Details : { "Artist" : " MC Hammer", "Album" : " Please Hammer, Don't Hurt 'Em " , "ReleaseYear" : 1990}
+}, 
+{
+SongId : 17 ,
+Title : "Thriller",  
+Details : { "Artist" : " Michael Jackson ", "Album" : " Thriller " , "ReleaseYear" : 1982}
+}, 
+{
+SongId : 18 ,
+Title : "	Single Ladies",  
+Details : { "Artist" : " Beyonce ", "Album" : " I am... Sasha Fierce " , "ReleaseYear" : 2008}
+}, 
+{
+SongId : 19 ,
+Title : "	Rhythm Nation",  
+Details : { "Artist" : " Janet Jackson ", "Album" : " Janet Jackson's Rhythm Nation 1814 " , "ReleaseYear" : 1989}
+}
+]);
+
